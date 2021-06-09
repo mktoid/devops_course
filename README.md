@@ -1,1 +1,3 @@
-# devops_course
+# Devops course
+
+Homeworks for Devops tools and practices course
