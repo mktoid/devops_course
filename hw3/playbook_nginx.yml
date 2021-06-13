@@ -3,12 +3,6 @@
   become: yes
   hosts: webserver
   tasks:
-    #- set_fact:
-    #    nginx_status: no
-
-    #- name: Print variable
-    #  debug:
-    #    msg: "{{ nginx_status }}" 
 
     - name: Install Nginx
       apt:
@@ -23,13 +17,7 @@
 
     - name: Print resilt
       debug: 
-        msg: "{{ result['state']  }}"
-
-    #- name: Stop nginx service
-    #  systemd:
-    #    name: nginx
-    #    state: stopped
-    #  when: not nginx_status
+        msg: "{{ result['state'] }}"
 
     - name: Replace default web page
       copy: 
