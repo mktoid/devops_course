@@ -13,6 +13,11 @@
       systemd:
         name: nginx
         state: started
+      register: result
+
+    - name: Print resilt
+      debug: 
+        msg: "{{ result['state'] }}"
 
     - name: Replace default web page
       copy: 
