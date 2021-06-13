@@ -13,11 +13,6 @@
       systemd:
         name: nginx
         state: started
-      register: result
-
-    - name: Print resilt
-      debug: 
-        msg: "{{ result['state'] }}"
 
     - name: Replace default web page
       copy: 
@@ -32,12 +27,11 @@
         mode: 0644
       notify: restart nginx
 
-
   handlers: 
     - name: restart nginx
       systemd:
         daemon_reload: true
         name: nginx
         state: restarted
-        register: restart_nginx_result
-        ignore_errors: true
+      register: restart_nginx_result
+      ignore_errors: true

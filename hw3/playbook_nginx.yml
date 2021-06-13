@@ -34,5 +34,5 @@
         daemon_reload: true
         name: nginx
         state: restarted
-        register: restart_nginx_result
-        ignore_errors: true
+      register: restart_nginx_result
+      ignore_errors: true
