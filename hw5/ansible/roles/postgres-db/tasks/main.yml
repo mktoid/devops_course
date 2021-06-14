@@ -18,6 +18,20 @@
 - name: Copy PostgreSQL conf file
   template:
     src: postgresql.conf.j2
-    dest: /etc/postgresql/postgresql.conf
+    dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
     owner: postgres
     mode: 0644
+  notify: restart postgresql
+
+- name: Make sure psycopg2 is installed (required for postgresql_user)
+  pip:
+    name: psycopg2-binary
+    state: present
+
+- name: Set postgres user password
+  postgresql_user:
+    user: postgres
+    password:  "{{ postgres_pass }}"
+    encrypted: yes
+  become: yes
+  become_user: postgres
