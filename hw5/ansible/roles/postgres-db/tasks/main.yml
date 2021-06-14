@@ -15,7 +15,7 @@
     update_cache: yes
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: Copy PostgreSQL conf file
+- name: Copy PostgreSQL configuration file
   template:
     src: postgresql.conf.j2
     dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
@@ -28,10 +28,10 @@
     name: psycopg2-binary
     state: present
 
-- name: Set postgres user password
-  postgresql_user:
-    user: postgres
-    password:  "{{ postgres_pass }}"
-    encrypted: yes
-  become: yes
-  become_user: postgres
+#- name: Set postgres user password
+#  postgresql_user:
+#    user: postgres
+#    password:  "{{ postgres_pass }}"
+#    encrypted: yes
+#  become: yes
+#  become_user: postgres
