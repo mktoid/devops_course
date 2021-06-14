@@ -18,7 +18,7 @@
 - name: Copy PostgreSQL configuration file
   template:
     src: postgresql.conf.j2
-    dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
+    dest: "{{ postgres_config_path }}/postgresql.conf"
     owner: postgres
     mode: 0644
   notify: restart postgresql
@@ -28,10 +28,23 @@
     name: psycopg2-binary
     state: present
 
-#- name: Set postgres user password
-#  postgresql_user:
-#    user: postgres
-#    password:  "{{ postgres_pass }}"
-#    encrypted: yes
-#  become: yes
-#  become_user: postgres
+- name: Check if PostgreSQL database is initialized
+  stat:
+    path: "{{ postgres_data_dir }}/PG_VERSION"
+  register: pgdata_dir_version
+
+- name: Make sure PostgreSQL database is initialized
+  command: "{{ postgres_bin_path }}/initdb -D {{ postgres_data_dir }}"
+  when: not pgdata_dir_version.stat.exists
+  become: true
+  become_user: "{{ postgres_user }}"
+  vars:
+    ansible_ssh_pipelining: true
+
+- name: Set postgres user password
+  postgresql_user:
+    user: postgres
+    password:  "{{ postgres_pass }}"
+    encrypted: yes
+  become: yes
+  become_user: postgres

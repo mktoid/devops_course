@@ -1,5 +1,10 @@
 ---
 postgres_version: 13
 postgres_user: postgres
+postgres_group: postgres
 postgres_pass: password
 postgres_port: 5432
+
+postgres_data_dir: "/var/lib/postgresql/{{ postgres_version }}/main"
+postgres_bin_path: "/usr/lib/postgresql/{{ postgres_version }}/bin"
+postgres_config_path: "/etc/postgresql/{{ postgres_version }}/main"
